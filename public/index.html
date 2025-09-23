@@ -12,13 +12,39 @@
     <header>
         <h1 class="text-center">Youtube video downloader</h1>
     </header>
-    
-    <form action="/link" method="POST" style="width: 60%; margin: auto;">
+
+    <form style="width: 60%; margin: auto;" id="linkForm">
         <div class="mb-3">
             <label for="link" class="form-label text-center">Please paste your YouTube link below</label>
             <input type="text" class="form-control" id="link" name="link">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+
+    <div id="links"></div>
+
+    <script>
+        document.getElementById("linkForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const url = document.getElementById("link").value;
+        if (!url) {
+            alert("Please enter a YouTube URL");
+            return;
+        }
+
+        const response = await fetch(`/link?url=${encodeURIComponent(url)}`);
+        if (!response.ok) {
+            alert("Error generating links");
+            return;
+        }
+
+        const data = await response.json();
+
+        document.getElementById("links").innerHTML = `
+            <p><a href="${data.mp3}" download>Download MP3</a></p>
+            <p><a href="${data.mp4}" download>Download MP4</a></p>
+        `;
+        });
+    </script>
 </body>
 </html>
