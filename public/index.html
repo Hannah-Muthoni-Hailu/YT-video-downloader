@@ -12,10 +12,11 @@
     <header>
         <h1 class="text-center">Youtube video downloader</h1>
     </header>
-    <form style="width: 60%; margin: auto;">
+    
+    <form action="/link" method="POST" style="width: 60%; margin: auto;">
         <div class="mb-3">
             <label for="link" class="form-label text-center">Please paste your YouTube link below</label>
-            <input type="text" class="form-control" id="link">
+            <input type="text" class="form-control" id="link" name="link">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
