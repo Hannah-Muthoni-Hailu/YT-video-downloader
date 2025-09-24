@@ -41,11 +41,11 @@ app.get('/link', async (req, res) => {
   const url = req.query.url;
   
   // Validation of the link
-  const regex = /^https:\/\/www\.youtube\.com\/watch\?v=/;
+  const regex = /^https:/;
   const match = regex.test(url);
   
   if (!match) {
-    console.log(url)
+    console.log("Invalid link");
     res.status(500).send("Invalid link. Try again");
     return
   }
@@ -55,10 +55,10 @@ app.get('/link', async (req, res) => {
 
   try {
     // Download MP3
-    await runYtDlp(["-x", "--audio-format", "mp3", "-o", "-", url], mp3Path);
+    await runYtDlp(["-x", "--audio-format", "mp3", "--cookies", "cookies.txt", "-o", "-", url], mp3Path);
 
     // Download MP4
-    await runYtDlp(["-f", "mp4", "-o", "-", url], mp4Path);
+    await runYtDlp(["-f", "mp4", "--cookies", "cookies.txt", "-o", "-", url], mp4Path);
 
     // Respond with JSON links
     res.json({
